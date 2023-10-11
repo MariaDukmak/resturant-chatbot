@@ -3,5 +3,5 @@ streamlit-chat
 google-auth
 google-auth-oauthlib
 google-auth-httplib2
-google-api-python-client streamlit
-pydrive
+google-api-python-client 
+pydrive 
