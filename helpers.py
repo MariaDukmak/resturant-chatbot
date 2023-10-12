@@ -1,6 +1,7 @@
 import time
 import uuid
 import pandas as pd
+from dialog_management.helpers import states
 
 
 def get_id():
@@ -8,8 +9,8 @@ def get_id():
     return random_id
 
 
-def generate_response(user_input, mode):
-    return 'Still working on it!'
+def generate_response(user_input:str, mode:str):
+    return states(user_input, mode)
 
 
 def empty(placeholder):

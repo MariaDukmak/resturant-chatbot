@@ -5,7 +5,7 @@ from google.oauth2 import service_account
 import gspread
 import pandas as pd
 import random
-from helpers import *
+from helpers import get_id, empty, save_data, generate_response
 
 
 def app() -> None:
@@ -34,7 +34,7 @@ def app() -> None:
     periv_mode = last_recored.get('mode')
     if periv_mode == 'human': mode = 'not human'
     else:mode ='human'
-
+    print(mode)
     with st.sidebar:
         add_radio = st.checkbox("**Ready to fill in the evaluation?**", value=False)
     if not add_radio:
@@ -76,14 +76,15 @@ def app() -> None:
                 message_placeholder = st.empty()
                 full_response = ""
                 assistant_response = generate_response(prompt, mode)
+                print(f"assistent_re {assistant_response}")
                 # Simulate stream of response with milliseconds delay
                 for chunk in assistant_response.split():
                     full_response += chunk + " "
                     time.sleep(0.05)
-                    # Add a blinking cursor to simulate typing
-                    message_placeholder.markdown(full_response + "▌")
-                message_placeholder.markdown(full_response)
-                message_placeholder.markdown(mode)
+                    if mode == 'human':
+                        # Add a blinking cursor to simulate typing
+                        message_placeholder.markdown(full_response + "▌")
+                    message_placeholder.markdown(full_response)
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": full_response})
     if add_radio:
