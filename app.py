@@ -97,7 +97,7 @@ def app() -> None:
                 message_placeholder = st.empty()
                 full_response = ""
                 s = StateManager()
-                assistant_response = generate_response(prompt, mode)
+                assistant_response = generate_response(s, prompt, mode)
                 print(assistant_response)
                 # Simulate stream of response with milliseconds delay
                 for chunk in assistant_response.split():
