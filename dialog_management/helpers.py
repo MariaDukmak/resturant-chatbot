@@ -640,4 +640,3 @@ def retrieve_restaurants(preferences: Tuple = ('north', 'cheap', None)) -> Union
     # Apply the filter
     results = data[filter]
     return results.head() if len(results) != 0 else None
-
