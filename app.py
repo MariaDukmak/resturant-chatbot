@@ -1,11 +1,9 @@
 import streamlit as st
 import time
-import uuid
 from google.oauth2 import service_account
 import gspread
-import pandas as pd
-import random
 from helpers import get_id, empty, save_data, generate_response
+from datetime import datetime
 
 
 def app() -> None:
@@ -16,8 +14,29 @@ def app() -> None:
         menu_items={"About": "This an experiment app for UU students."})
 
     st.sidebar.title("Restaurants Recommendations Chatbot")
-    st.sidebar.image('chatbot_image.jpeg')
-    st.sidebar.write("After completing the experiment, please switch to page 2 and fill in the evaluation form")
+    st.sidebar.image('chatbot_image.jpeg', width=200)
+    st.sidebar.write("Before running the experimet, make sure to read and agree to the informed consent. "
+                     "Please fill in the evaluation afterword")
+    with st.sidebar.expander('Informed Consent'):
+        st.markdown("Before we begin, it's important to know that all data that we collect will be "
+                    "anonymous and confidential, and you will not be identifiable in any report, thesis or "
+                    "publication which arises from this study. If the dataset will be published as part of scientific "
+                    "communications this will be done in an anonymized fashion. We will kindly ask your permission to "
+                    "use your data for research purposes. You are free to decline this request, of course, but you can't "
+                    "finish the experiment. ")
+        st.checkbox("**By checking this checkbox, I confirm that:**")
+
+        st.markdown(" - I have read and understood the information provided to me for this study")
+        st.markdown(" - I understand that my participation is voluntary and that I am free to withdraw at any time,"
+                    " without giving a reason,"
+                    " without my medical care or legal rights being affected")
+        st.markdown(" - I understand that the research data will be archived in a completely anonymous way in an "
+                    "online database and/or data repository and/or published as supplementary material to a scientific"
+                    " article and may be accessed by other researchers as well as the general public")
+        st.markdown(" -I understand that the anonymized research data can be used in future projects on similar "
+                    "or different topics to this study and potential results can be published in other scientific"
+                    " publications. At all times, my personal data will be kept anonymized in accordance with data "
+                    "protection guidelines")
 
     placeholder = st.empty()
     credentials = service_account.Credentials.from_service_account_info(
@@ -33,8 +52,9 @@ def app() -> None:
     last_recored = sheet.get_all_records()[-1]
     periv_mode = last_recored.get('mode')
     if periv_mode == 'human': mode = 'not human'
-    else:mode ='human'
-    print(mode)
+    else :mode ='human'
+
+    now = datetime.now()
     with st.sidebar:
         add_radio = st.checkbox("**Ready to fill in the evaluation?**", value=False)
     if not add_radio:
@@ -76,7 +96,6 @@ def app() -> None:
                 message_placeholder = st.empty()
                 full_response = ""
                 assistant_response = generate_response(prompt, mode)
-                print(f"assistent_re {assistant_response}")
                 # Simulate stream of response with milliseconds delay
                 for chunk in assistant_response.split():
                     full_response += chunk + " "
@@ -89,7 +108,13 @@ def app() -> None:
             st.session_state.messages.append({"role": "assistant", "content": full_response})
     if add_radio:
         empty(placeholder)
-        st.title('Evaluation form')
+        # st.title("Informed Consent")
+
+
+        # with st.expander(" "):
+        #
+        # st.write("-------")
+        st.header('Evaluation form')
         st.markdown("We kindly ask you to fill in the following questions **after** you did the experiment."
                     "\n Make sure to click on the submit button, otherwise none of the data would be saved.")
         # Survey questions
@@ -120,7 +145,7 @@ def app() -> None:
         st.write("-----")
         sub_button = st.button("Submit")
         if sub_button:
-            database_df = save_data(str(get_id()), st.session_state.messages, [age, fun_rating, trust_rating, chatbot_enjoy_rating,
+            database_df = save_data(str(get_id()), now, st.session_state.messages, [age, fun_rating, trust_rating, chatbot_enjoy_rating,
                                                                     recommendation_received, received_unexpected_result,
                                                                     additional_info, mode])
             database_df = database_df.astype(str)
