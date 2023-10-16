@@ -3,6 +3,8 @@ import uuid
 import pandas as pd
 from dialog_management.helpers import StateManager
 
+s = StateManager()
+
 
 def get_id():
     random_id = uuid.uuid4()
@@ -10,7 +12,6 @@ def get_id():
 
 
 def generate_response(user_input: str, mode: str):
-    s = StateManager()
 
     # if state == 'end':
     #     state.ds = Data
