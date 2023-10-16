@@ -4,11 +4,9 @@ from google.oauth2 import service_account
 import gspread
 from helpers import get_id, empty, save_data, generate_response
 from datetime import datetime
-from dialog_management.helpers import StateManager
 
 
 def app() -> None:
-    s = StateManager()
 
     st.set_page_config(
         page_title="Chatbot-Group8",
@@ -98,7 +96,7 @@ def app() -> None:
             with st.chat_message("assistant"):
                 message_placeholder = st.empty()
                 full_response = ""
-                assistant_response = generate_response(s, prompt, mode)
+                assistant_response = generate_response(prompt, mode)
                 print(assistant_response)
                 # Simulate stream of response with milliseconds delay
                 for chunk in assistant_response.split():

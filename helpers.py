@@ -1,8 +1,7 @@
 import time
 import uuid
 import pandas as pd
-
-
+from dialog_management.helpers import StateManager
 
 
 def get_id():
@@ -10,11 +9,12 @@ def get_id():
     return random_id
 
 
-def generate_response(state, user_input: str, mode: str):
+def generate_response(user_input: str, mode: str):
+    s = StateManager()
 
     # if state == 'end':
     #     state.ds = Data
-    return state.states(user_input, mode)
+    return s.states(user_input, mode)
 
 
 
