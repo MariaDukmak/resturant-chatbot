@@ -8,6 +8,8 @@ from dialog_management.helpers import StateManager
 
 
 def app() -> None:
+    s = StateManager()
+
     st.set_page_config(
         page_title="Chatbot-Group8",
         page_icon="🧊",
@@ -96,7 +98,6 @@ def app() -> None:
             with st.chat_message("assistant"):
                 message_placeholder = st.empty()
                 full_response = ""
-                s = StateManager()
                 assistant_response = generate_response(s, prompt, mode)
                 print(assistant_response)
                 # Simulate stream of response with milliseconds delay
