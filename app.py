@@ -6,6 +6,7 @@ from helpers import get_id, empty, save_data, generate_response
 from datetime import datetime
 import os 
 
+
 def app() -> None:
 
     st.set_page_config(
@@ -78,9 +79,16 @@ def app() -> None:
             </style>
             ''', unsafe_allow_html=True)
             # Initialize chat history
+
         if "messages" not in st.session_state:
             st.session_state.messages = []
-            
+
+            with st.chat_message('assistant'):
+                message_placeholder = st.empty()
+                response = generate_response(" ", mode)
+                message_placeholder.markdown(response)
+                # st.session_state.messages.append({"role": "assistant", "content": response})
+
         if "REQUEST_METHOD" in os.environ and os.environ["REQUEST_METHOD"] == "GET":
             # Clear the chat history on page refresh
             st.session_state.messages = []
@@ -89,8 +97,10 @@ def app() -> None:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
         # Accept user input
+
         if prompt := st.chat_input("What is up?"):
             # Add user message to chat history
+
             st.session_state.messages.append({"role": "user", "content": prompt})
             # Display user message in chat message container
             with st.chat_message("user"):
@@ -100,6 +110,9 @@ def app() -> None:
             with st.chat_message("assistant"):
                 message_placeholder = st.empty()
                 full_response = ""
+                if prompt in ('bye', 'thankyou'):
+                    message_placeholder.markdown("Thank you, bye!")
+
                 assistant_response = generate_response(prompt, mode)
                 print(assistant_response)
                 # Simulate stream of response with milliseconds delay
@@ -112,46 +125,44 @@ def app() -> None:
                     message_placeholder.markdown(full_response)
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": full_response})
+        # placeholder = st.empty()
+
     if add_radio:
         empty(placeholder)
-        # st.title("Informed Consent")
-
-
-        # with st.expander(" "):
-        #
-        # st.write("-------")
         st.header('Evaluation form')
         st.markdown("We kindly ask you to fill in the following questions **after** you did the experiment."
                     "\n Make sure to click on the submit button, otherwise none of the data would be saved.")
         # Survey questions
         age = st.number_input("What is your age?", min_value=18)
 
-        fun_rating = st.slider("On a scale from 1 to 5, how would you rate the **fun** you had during this conversation?"
-                               "\n *A score of 1 would be a very unpleasant experience (offensive, boring or annoying),"
-                               "a score of 5 would be a great experience (very helpful, funny or interesting)*",
-                               1, 5)
+        # fun_rating = st.slider("On a scale from 1 to 5, how would you rate the **fun** you had during this conversation?"
+        #                        "\n *A score of 1 would be a very unpleasant experience (offensive, boring or annoying),"
+        #                        "a score of 5 would be a great experience (very helpful, funny or interesting)*",
+        #                        1, 5)
         trust_rating = st.slider("On a scale from 1 to 5, how much do you **trust** the responses from the system? "
                                "*A score of 1 would be not trustworthy at all (wrong/no recommendation, "
                                "preferences not taken into account, feeling of distrust) "
                                "and a score of 5 would be that you are fully confident that the right recommendation has been given*",
                                1, 5)
-        chatbot_enjoy_rating = st.slider("On a scale from 1 to 5, how much do you usually enjoy talking to chatbots?"
+        chatbot_enjoy_rating = st.slider("On a scale from 1 to 5, how much do you usually trust chatbots ?"
                                          "*A score of 1 would mean that you usually greatly dislike talking to chatbots,"
                                          "and a score of 5 would mean that they enjoy talking to chatbots very much.*",
                                          1, 5)
         recommendation_received = st.radio("Did you receive a recommendation for the preferences you entered?",
                                            ("Yes", "No"))
-        received_unexpected_result = st.radio("Did you receive an unexpected result from the system?", ("Yes", "No"),)
+        received_unexpected_result = st.radio("Did you receive an unexpected result from the system?", ("Yes", "No"),index = 1)
 
         # If the answer is "Yes," ask for additional information
-        if received_unexpected_result == "Yes":
+        if received_unexpected_result == 'Yes':
             additional_info = st.text_area("If yes, please provide details:", max_chars=200, height=30)
-        else:
-            additional_info = ""
+        else: additional_info = " "
+
+        humanlike_rating = st.slider(
+            "How human-like would you consider the conversation?", 1, 5, format="%d")
         st.write("-----")
         sub_button = st.button("Submit")
         if sub_button:
-            database_df = save_data(str(get_id()), now, st.session_state.messages, [age, fun_rating, trust_rating, chatbot_enjoy_rating,
+            database_df = save_data(str(get_id()), now, st.session_state.messages, [age, humanlike_rating, trust_rating, chatbot_enjoy_rating,
                                                                     recommendation_received, received_unexpected_result,
                                                                     additional_info, mode])
             database_df = database_df.astype(str)

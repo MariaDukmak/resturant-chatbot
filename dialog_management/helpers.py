@@ -21,33 +21,6 @@ from dialog_management.state_transitions import recommendation_state_string_buil
     string_random_string_selection, welcome_strings_anthropomorphic, end_state_anthropomorphic
 
 
-def vectorize_utterance(utterance: str) -> np.array:
-    """Convert string to vectors using TF vectorizer."""
-    tfidf_vectorizer = TfidfVectorizer()
-    tfidf_vectorizer.fit_transform(utterance)
-    return tfidf_vectorizer
-
-
-def encode_label(label: str) -> np.array:
-    '''Encode all classes (dialog act) to list/array.'''
-    label_encoder = LabelEncoder()
-    label_encoder.fit_transform(label)
-    return label_encoder
-
-
-def read_data(filename: str = "data/dialog_acts.dat") -> pd.DataFrame:
-    '''Read data from a .dat format and return a pandas dataframe.'''
-    file_content = [i.strip().split(" ", 1) for i in open(filename).readlines()]
-    df = pd.DataFrame(file_content, columns=['dialog_act', 'utterance_content'])
-    return df
-
-
-def prep_df(df):
-    '''Function that will drop duplicate utterances and also remove any capitals present in the dataset'''
-    df = df.drop_duplicates(['dialog_act', 'utterance_content'])
-    df.loc[:, 'utterance_content'] = df['utterance_content'].str.lower()
-    return df
-
 
 def get_user_input(utterance):
     user_utterance = str(input(f"\n\n {utterance}"))
@@ -59,14 +32,14 @@ def classifier_prediction(user_utterance: str) -> List[str]:
     print(user_utterance)
     df = read_data()
     df = prep_df(df)
-    with open('data/cleaned_data_dt.pickle', 'rb') as file:
+    with open('data/cleaned_data_lr.pickle', 'rb') as file:
         loaded_model = pickle.load(file)
 
     vectorizer = vectorize_utterance(df['utterance_content'])
     vec_user_utterance = vectorizer.transform([user_utterance])
-    predictionn = loaded_model.predict(vec_user_utterance)
+    prediction = loaded_model.predict(vec_user_utterance)
     label_encoder = encode_label(df['dialog_act'])
-    new_dialog_state = label_encoder.inverse_transform(predictionn)
+    new_dialog_state = label_encoder.inverse_transform(prediction)
     return new_dialog_state
 
 
@@ -91,7 +64,7 @@ class StateManager:
             rules['anthropomorphic_response'] = True
         else:
             rules['anthropomorphic_response'] = False
-
+        print(self.ds.state)
         match self.ds.state:
             case '':
                 self.ds.state = '1'
@@ -100,7 +73,6 @@ class StateManager:
                 else:
                     return random.choice(welcome_strings)
             case '1':
-                print(self.ds.state)
                 s,self.ds = state_1_welcome(user_input, self.ds)
                 return s
             case '1a':
@@ -133,7 +105,6 @@ class StateManager:
             case 'end':
                 return 'end'
 
-
 def state_1_welcome(user_input, ds):
     '''Welcome state that will start the dialogue system. If one of the preferences is dont care, ask preferences
     if all the preferences are given, search in the database'''
@@ -147,11 +118,10 @@ def state_1_welcome(user_input, ds):
         else:
             return state_3_database_search(ds)
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
+        return state_7_end(ds)
     else:
         ds.state = '1a'
         return string_allcaps_function(welcome_1a_strings[string_random_string_selection(0, len(welcome_1a_strings)-1)]), ds
-
 
 def state_1a_welcome(user_input, ds):
     '''This state is reached if the user utterance is not inform'''
@@ -165,11 +135,10 @@ def state_1a_welcome(user_input, ds):
         else:
             return state_3_database_search(ds)
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
+        return state_7_end(ds)
     else:
         ds.state = '1a'
         return string_allcaps_function(welcome_1a_strings[string_random_string_selection(0, len(welcome_1a_strings) - 1)]), ds
-
 
 def state_2_ask_missing_preferences(ds):
     '''In this state we check for the missing preferences, by order is asked: area, food or price'''
@@ -187,16 +156,15 @@ def state_2_ask_missing_preferences(ds):
         ds.state = '3'
         return state_3_database_search(ds)
 
-
 def state_2a_ask_missing_preferences_area(user_input, ds):
     '''the preference missing in state 2a is area, however the system asks the user for the other missing prferences'''
 
     new_dialog_state = classifier_prediction(user_input)
     ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-    if new_dialog_state == 'restart' or (new_dialog_state == 'null' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings)-1)], ds
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings)-1)], clearDsClass(ds)
         else:
             ds.state = '2a'
             return string_allcaps_function(restart_option_false[string_random_string_selection(0, len(restart_option_false)-1)]), ds
@@ -219,21 +187,20 @@ def state_2a_ask_missing_preferences_area(user_input, ds):
             else:
                 return state_3_database_search(ds)
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
+        return state_7_end(ds)
     else:
         ds.state = '2a'
         return state_2_ask_missing_preferences(ds)
-
 
 def state_2b_ask_missing_preferences_food(user_input, ds):
     '''the preference missing in state 2b is food type, however the system asks the user for the other missing prferences'''
 
     new_dialog_state = classifier_prediction(user_input)
     ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-    if new_dialog_state == 'restart' or (new_dialog_state == 'null' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], ds
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '2b'
             return string_allcaps_function(
@@ -257,7 +224,7 @@ def state_2b_ask_missing_preferences_food(user_input, ds):
             else:
                 return state_3_database_search(ds)
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
+        return state_7_end(ds)
     else:
         ds.state = '2b'
         return state_2_ask_missing_preferences(ds)
@@ -267,10 +234,10 @@ def state_2c_ask_missing_preferences_price(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
     ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-    if new_dialog_state == 'restart' or (new_dialog_state == 'null' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)]
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '2c'
             return string_allcaps_function(
@@ -294,7 +261,7 @@ def state_2c_ask_missing_preferences_price(user_input, ds):
             else:
                 return state_3_database_search(ds)
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
+        return state_7_end(ds)
     else:
         ds.state = '2c'
         return state_2_ask_missing_preferences(ds)
@@ -320,16 +287,16 @@ def state_3a_ask_additional_preferences(user_input, ds):
     consequent = search_for_consequent(user_input)
     ds.recommendations["result"] = False
     ds.drop_indexes = []
-    if new_dialog_state == 'restart' or (new_dialog_state == 'null' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], ds
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '3a'
             return string_allcaps_function(
                 restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
+        return state_7_end(ds)
     if consequent != None:
         s = ''
         for index, row in ds.recommendations.iterrows():
@@ -380,30 +347,28 @@ def state_3b_ask_to_save_preferences(user_input, ds):
         ds.state = '1'
         return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], ds
 
-
 def state_4_no_restaurants(user_input, ds):
     '''in state 4 the system ask the user to change its preferences so that a new attempt can be made'''
 
     new_dialog_state = classifier_prediction(user_input)
 
-    if new_dialog_state == 'inform':
-        ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-        ds.state = '3'
-        return state_3_database_search(ds)
-    if new_dialog_state == 'restart' or (new_dialog_state == 'null' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], ds
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '4'
             return string_allcaps_function(restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
+    elif new_dialog_state == 'inform':
+        ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
+        ds.state = '3'
+        return state_3_database_search(ds)
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
         ds.state = '7'
-        return state_7_end(), ds
+        return state_7_end(ds)
     else:
         ds.state = '3'
         return state_3_database_search(ds)
-
 
 def state_5_recommendation(user_input, ds):
     '''in state 5 the system will show to the user a list of restaurants,
@@ -412,7 +377,20 @@ def state_5_recommendation(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
 
-    if new_dialog_state == 'inform':
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+        if rules["restart"] == True:
+            ds.state = '1'
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
+        else:
+            if ds.recommendations.empty:
+                ds.state = '4'
+                return string_allcaps_function(
+                    restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
+            else:
+                ds.state = '5'
+                return string_allcaps_function(
+                    restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
+    elif new_dialog_state == 'inform':
         if rules["allow_change_preferences"] == True:
             ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
             return state_3_database_search(ds)
@@ -449,20 +427,7 @@ def state_5_recommendation(user_input, ds):
         ds.state = '6'
         return string_allcaps_function(give_information_state_string_builder(requested_info)), ds
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
-    elif new_dialog_state == 'restart' or (new_dialog_state == 'null' and 'restart' in user_input):
-        if rules["restart"] == True:
-            ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], ds
-        else:
-            if ds.recommendations.empty:
-                ds.state = '4'
-                return string_allcaps_function(
-                    restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
-            else:
-                ds.state = '5'
-                return string_allcaps_function(
-                    restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
+        return state_7_end(ds)
     else:
         if ds.recommendations.empty:
             ds.state = '4'
@@ -472,7 +437,6 @@ def state_5_recommendation(user_input, ds):
             ds.state = '5'
             return string_allcaps_function(
                 restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
-
 
 def state_6_give_information(user_input, ds):
     '''in state 6 the system will show to the user all the information requested and can ask for more,
@@ -499,11 +463,11 @@ def state_6_give_information(user_input, ds):
         ds.state = '6'
         return string_allcaps_function(give_information_state_string_builder(requested_info)), ds
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
-        return state_7_end(), ds
-    if new_dialog_state == 'restart' or (new_dialog_state == 'null' and 'restart' in user_input):
+        return state_7_end(ds)
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], ds
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '6'
             return string_allcaps_function(
@@ -513,12 +477,13 @@ def state_6_give_information(user_input, ds):
         return string_allcaps_function("retry, what info can I give you?"), ds
 
 
-def state_7_end():
+def state_7_end(ds):
     '''in this state the system greets the user, and the program terminate'''
+
     if rules['anthropomorphic_response']:
-        return string_allcaps_function(end_state[string_random_string_selection(0, len(end_state) - 1)])
+        return string_allcaps_function(random.choice(welcome_strings_anthropomorphic)), clearDsClass(ds)
     else:
-        return string_allcaps_function(end_state[string_random_string_selection(0, len(end_state_anthropomorphic) - 1)])
+        return string_allcaps_function(random.choice(welcome_strings)), clearDsClass(ds)
 
 
 def levenshtein_distance(token, variable_ranges, preference, preference_found: bool, minimum_distance: int, closest_preference, maximum_distance: int):
@@ -538,7 +503,6 @@ def levenshtein_distance(token, variable_ranges, preference, preference_found: b
             result = "continue"
     return result, preference, preference_found, minimum_distance
 
-
 def update_preferences(old_preferences, new_preferences):
     '''update the preference of the user'''
     old_preferences = list(old_preferences)
@@ -550,7 +514,6 @@ def update_preferences(old_preferences, new_preferences):
     if old_preferences[2] != new_preferences[2] and new_preferences[2] != "dontcare":
         old_preferences[2] = new_preferences[2]
     return tuple(old_preferences)
-
 
 def extract_preferences(utterance: str, levenshtein: bool = True, food_preference: Optional[str] = None, location_preference: Optional[str] = None,
                         price_preference: Optional[str] = None) \
@@ -618,7 +581,6 @@ def extract_preferences(utterance: str, levenshtein: bool = True, food_preferenc
 
     return location_preference, food_preference, price_preference
 
-
 def retrieve_restaurants(preferences: Tuple = ('north', 'cheap', None)) -> Union[pd.DataFrame, None]:
     """A function that look up for a restaurant from the given CSV file.
        It can handel none values aka any preference.
@@ -640,3 +602,43 @@ def retrieve_restaurants(preferences: Tuple = ('north', 'cheap', None)) -> Union
     # Apply the filter
     results = data[filter]
     return results.head() if len(results) != 0 else None
+
+
+def read_data(filename: str = "data/dialog_acts.dat") -> pd.DataFrame:
+    '''Read data from a .dat format and return a pandas dataframe.'''
+    file_content = [i.strip().split(" ", 1) for i in open(filename).readlines()]
+    df = pd.DataFrame(file_content, columns=['dialog_act', 'utterance_content'])
+    return df
+
+
+def prep_df(df):
+    '''Function that will drop duplicate utterances and also remove any capitals present in the dataset'''
+    df = df.drop_duplicates(['dialog_act', 'utterance_content'])
+    df.loc[:, 'utterance_content'] = df['utterance_content'].str.lower()
+    return df
+
+
+def vectorize_utterance(utterance: str) -> np.array:
+    """Convert string to vectors using TF vectorizer."""
+    tfidf_vectorizer = TfidfVectorizer()
+    tfidf_vectorizer.fit_transform(utterance)
+    return tfidf_vectorizer
+
+
+def encode_label(label: str) -> np.array:
+    '''Encode all classes (dialog act) to list/array.'''
+    label_encoder = LabelEncoder()
+    label_encoder.fit_transform(label)
+    return label_encoder
+
+
+def clearDsClass(ds):
+    ds.string = ''
+    ds.state = '1'
+    ds.preferences = ['', '', '']
+    ds.null_counter = 0
+    ds.recommendations = ''
+    ds.recommendation = ''
+    ds.recommendation_nr = 0
+    ds.drop_indexes = []
+    return ds
