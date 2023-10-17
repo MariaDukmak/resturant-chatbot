@@ -4,7 +4,7 @@ from google.oauth2 import service_account
 import gspread
 from helpers import get_id, empty, save_data, generate_response
 from datetime import datetime
-
+import os 
 
 def app() -> None:
 
@@ -79,6 +79,10 @@ def app() -> None:
             ''', unsafe_allow_html=True)
             # Initialize chat history
         if "messages" not in st.session_state:
+            st.session_state.messages = []
+            
+         if "REQUEST_METHOD" in os.environ and os.environ["REQUEST_METHOD"] == "GET":
+            # Clear the chat history on page refresh
             st.session_state.messages = []
 
         for message in st.session_state.messages:
