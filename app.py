@@ -81,7 +81,7 @@ def app() -> None:
         if "messages" not in st.session_state:
             st.session_state.messages = []
             
-         if "REQUEST_METHOD" in os.environ and os.environ["REQUEST_METHOD"] == "GET":
+        if "REQUEST_METHOD" in os.environ and os.environ["REQUEST_METHOD"] == "GET":
             # Clear the chat history on page refresh
             st.session_state.messages = []
 
