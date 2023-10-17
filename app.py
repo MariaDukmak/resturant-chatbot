@@ -63,13 +63,18 @@ def app() -> None:
         st.title('Chat area')
 
         with st.expander("Instructions"):
-            st.write('''This is a restaurants recommendations chatbot. For this experiment,
-                     we kindly ask you the following instructions:
-                     **Choose 3 of the following cases and test with the chatbot**''')
-            st.markdown("- Case 1: Italian cheap south No restaurant")
-            st.markdown("- Case 2: French east moderate Change preferences")
-            st.markdown("- Case 3: Find a recommendation that fits your own preferences.")
-            st.markdown("- Case 4: Find a restaurant that is romantic, but cheap.")
+            st.write('''This is a restaurants recommendations chatbot.
+                    **For this experiment, we kindly ask you the following instructions:**
+                    Try to find these 3 recommendations using the chatbot.
+                     We recommend using keywords instead of full sentences for a better result. ''')
+            st.markdown("- Case 1: An Italian cheap in the south part of town")
+            st.markdown("- Case 2: A French, moderately priced restaurant at the east part of town ")
+            st.markdown("- Case 3: Any restaurant that is romantic, but cheap")
+            # st.markdown("- Case 4: Find a restaurant that is romantic, but cheap.")
+            st.markdown(" ")
+            st.markdown('''Remember to sign the consent form on the left of this page, and move on to the questionnaire if you are finished with your chatbot interactions. 
+                            *PS. You're welcome to play around and test the chatbot yourself as well! 
+                            However, please don't fill out the questionnaire if you, so it doesn't influence the results.*''')
 
             st.markdown('''
             <style>
