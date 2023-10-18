@@ -25,7 +25,7 @@ welcome_strings = ["This is the Cambridge restaurant system. Enter area , price 
 welcome_strings_anthropomorphic = ["Welcome! I'm Josh, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!", "Welcome! I'm Lisa, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!"]
 #-----------------------------------------------------------------------
 #1a welcome state
-welcome_1a_strings = ["Please enter your preferences (location, pricerange and food type) again"]
+welcome_1a_strings = ["Please enter your preferences (location, pricerange and food type)"]
 
 welcome_1a_strings_anthropomorphic = ["Sorry, I didn't catch that, can you tell me your preferences again please?", "I would like to know your preferences, for the area, price range and food type, so we can find you a great restaurant! Can you please enter these preferences?"]
 #-----------------------------------------------------------------------
