@@ -22,7 +22,7 @@ change_preferences_option_false_anthropomorphic = [""]
 #1 welcome state
 welcome_strings = ["This is the Cambridge restaurant system. Enter area , price range or food type."]
 
-welcome_strings_anthropomorphic = ["Welcome! I'm Josh, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so we can find a good recommendation!", "Welcome! I'm Lisa, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so we can find a good recommendation!"]
+welcome_strings_anthropomorphic = ["Welcome! I'm Josh, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!", "Welcome! I'm Lisa, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!"]
 #-----------------------------------------------------------------------
 #1a welcome state
 welcome_1a_strings = ["Please enter your preferences (location, pricerange and food type) again"]
