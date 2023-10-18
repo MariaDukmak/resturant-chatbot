@@ -11,7 +11,7 @@ restart_option_false = ["sorry you can't restart the conversation, please set th
 restart_option_false_anthropomorphic = [""]
 #-----------------------------------------------------------------------
 #preference changes not allowed
-change_preferences_option_false = ["Sorry,you can't change the preferences, you can activate this option in the config file or, if it is activated, you can restart the conversation\n", "changing preferences is not allowed at this state of the conversation, please chenge the option in the config file or, if enabled, restart the conversation\n"]
+change_preferences_option_false = ["sorry, you can't change the preferences, you can activate this option in the config file or, if it is activated, you can restart the conversation\n", "changing preferences is not allowed at this state of the conversation, please chenge the option in the config file or, if enabled, restart the conversation\n"]
 change_preferences_option_false_anthropomorphic = [""]
 #-----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ change_preferences_option_false_anthropomorphic = [""]
 
 #-----------------------------------------------------------------------
 #1 welcome state
-welcome_strings = ["This is the Cambridge restaurant system. Enter area , price range or food type."]
+welcome_strings = ["This is the Cambridge restaurant system. Enter area, price range or food type."]
 
 welcome_strings_anthropomorphic = ["Welcome! I'm Josh, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!", "Welcome! I'm Lisa, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!"]
 #-----------------------------------------------------------------------
@@ -33,7 +33,7 @@ welcome_1a_strings_anthropomorphic = ["Sorry, I didn't catch that, can you tell 
 #missing information state 2a 2b 2c
 missing_information_state_main_grounding = ["The system is searching for a restaurant"]
 
-missing_information_state_main_grounding_anthropomorphic = ["I am searching for a restaurant! Hope you're excited!", "Just a minute, I am searching for a great restaurant for you. Are you hungry yet?", "One moment please, a nice restaurant for tonight is coming your way!"]
+missing_information_state_main_grounding_anthropomorphic = ["I am searching for a restaurant! Hope you're excited!", "Just a minute, I am searching for a great restaurant for you.", "One moment please, a nice restaurant for tonight is coming your way!"]
 #missing area
 missing_information_state_area = ["In which part of the city you want to eat? Enter north, south, east, west or centre."]
 
