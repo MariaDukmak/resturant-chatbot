@@ -37,7 +37,7 @@ missing_information_state_main_grounding_anthropomorphic = ["I am searching for 
 #missing area
 missing_information_state_area = ["In which part of the city you want to eat? Enter north, south, east, west or centre."]
 
-missing_information_state_area_anthropomorphic = ["I would like to know what part of time you want to eat. South? West? Centre? Please let me know!", "I need a little more information to find your recommendation. Can you tell me where you want to eat: the south, east, west or central part of town?"]
+missing_information_state_area_anthropomorphic = ["I would like to know in which part of the city you want to eat. You can choose north, south, west, east or centre. Please let me know!", "I need a little more information to find your recommendation. Can you tell in which area you want to eat: south, east, west or in the centre?"]
 #missing area grounding
 missing_information_state_area_grounding = [" in the {} part of the city", " in the {} area"]
 
