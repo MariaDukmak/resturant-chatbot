@@ -18,7 +18,7 @@ from dialog_management.state_transitions import recommendation_state_string_buil
     give_information_state_string_builder, recommendation_state_not_found_string_builder, \
     missing_information_state_grounding_string_builder, welcome_1a_strings, restart_option_false, \
     change_preferences_option_false, search_for_consequent, get_consequent_output, string_allcaps_function,\
-    string_random_string_selection, welcome_strings_anthropomorphic, end_state_anthropomorphic
+    string_random_string_selection, welcome_strings_anthropomorphic, welcome_1a_strings_anthropomorphic
 
 
 
@@ -121,7 +121,11 @@ def state_1_welcome(user_input, ds):
         return state_7_end(ds)
     else:
         ds.state = '1a'
-        return string_allcaps_function(welcome_1a_strings[string_random_string_selection(0, len(welcome_1a_strings)-1)]), ds
+        if rules['anthropomorphic_response']:
+            return welcome_1a_strings_anthropomorphic[
+                string_random_string_selection(0, len(welcome_1a_strings_anthropomorphic) - 1)], clearDsClass(ds)
+        else:
+            return welcome_1a_strings[string_random_string_selection(0, len(welcome_1a_strings) - 1)], clearDsClass(ds)
 
 def state_1a_welcome(user_input, ds):
     '''This state is reached if the user utterance is not inform'''
@@ -138,7 +142,11 @@ def state_1a_welcome(user_input, ds):
         return state_7_end(ds)
     else:
         ds.state = '1a'
-        return string_allcaps_function(welcome_1a_strings[string_random_string_selection(0, len(welcome_1a_strings) - 1)]), ds
+        if rules['anthropomorphic_response']:
+            return welcome_1a_strings_anthropomorphic[
+                string_random_string_selection(0, len(welcome_1a_strings_anthropomorphic) - 1)], clearDsClass(ds)
+        else:
+            return welcome_1a_strings[string_random_string_selection(0, len(welcome_1a_strings) - 1)], clearDsClass(ds)
 
 def state_2_ask_missing_preferences(ds):
     '''In this state we check for the missing preferences, by order is asked: area, food or price'''
