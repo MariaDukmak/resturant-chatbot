@@ -32,7 +32,7 @@ def classifier_prediction(user_utterance: str) -> List[str]:
     print(user_utterance)
     df = read_data()
     df = prep_df(df)
-    with open('data/cleaned_data_lr.pickle', 'rb') as file:
+    with open('data/new_data_lr.pickle', 'rb') as file:
         loaded_model = pickle.load(file)
 
     vectorizer = vectorize_utterance(df['utterance_content'])
