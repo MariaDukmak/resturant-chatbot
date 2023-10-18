@@ -289,7 +289,7 @@ def state_3_database_search(ds):
         return recommendation_state_not_found_string_builder(ds.preferences), ds
     else:
         ds.state = '3a'
-        return string_allcaps_function("Do you have additional requirements for this recommendation? (e.g. 'romantic', 'touristic', 'assigned_seats' or 'children'?) "), ds
+        return string_allcaps_function("Do you have additional requirements for this recommendation? (Please answer with 'romantic', 'touristic', 'assigned_seats' or 'children') "), ds
 
 def state_3a_ask_additional_preferences(user_input, ds):
     '''in state 3a we ask for additional preference if a recommendation is found'''
