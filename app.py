@@ -18,7 +18,7 @@ def app() -> None:
     st.sidebar.title("Restaurants Recommendations Chatbot")
     st.sidebar.image('chatbot_image.jpeg', width=200)
     st.sidebar.write("Before running the experimet, make sure to read and agree to the informed consent. "
-                     "Please fill in the evaluation afterword")
+                     "Please fill in the evaluation afterword.")
     with st.sidebar.expander('Informed Consent'):
         st.markdown("Before we begin, it's important to know that all data that we collect will be "
                     "anonymous and confidential, and you will not be identifiable in any report, thesis or "
@@ -26,8 +26,6 @@ def app() -> None:
                     "communications this will be done in an anonymized fashion. We will kindly ask your permission to "
                     "use your data for research purposes. You are free to decline this request, of course, but you can't "
                     "finish the experiment. ")
-        st.checkbox("**By checking this checkbox, I confirm that:**")
-
         st.markdown(" - I have read and understood the information provided to me for this study")
         st.markdown(" - I understand that my participation is voluntary and that I am free to withdraw at any time,"
                     " without giving a reason,"
@@ -39,6 +37,7 @@ def app() -> None:
                     "or different topics to this study and potential results can be published in other scientific"
                     " publications. At all times, my personal data will be kept anonymized in accordance with data "
                     "protection guidelines")
+    consent_checkboxed = st.sidebar.checkbox("**By checking this checkbox, I confirm that I red the consent terms and that I agree**")
 
     placeholder = st.empty()
     credentials = service_account.Credentials.from_service_account_info(
@@ -75,6 +74,8 @@ def app() -> None:
             st.markdown('''Remember to sign the consent form on the left of this page, and move on to the questionnaire if you are finished with your chatbot interactions. 
                             *PS. You're welcome to play around and test the chatbot yourself as well! 
                             However, please don't fill out the questionnaire if you, so it doesn't influence the results.*''')
+            st.markdown(" ")
+            st.markdown("**To start or restart the conversation type: thank you, bye or start over.**")
 
             st.markdown('''
             <style>
@@ -139,37 +140,29 @@ def app() -> None:
                     "\n Make sure to click on the submit button, otherwise none of the data would be saved.")
         # Survey questions
         age = st.number_input("What is your age?", min_value=18)
+        trust_rating = st.slider("Overall, I believe this chatbot is trustworthy *1 strongly disagree, 5 strongly agree*", 1, 5)
 
-        # fun_rating = st.slider("On a scale from 1 to 5, how would you rate the **fun** you had during this conversation?"
-        #                        "\n *A score of 1 would be a very unpleasant experience (offensive, boring or annoying),"
-        #                        "a score of 5 would be a great experience (very helpful, funny or interesting)*",
-        #                        1, 5)
-        trust_rating = st.slider("On a scale from 1 to 5, how much do you **trust** the responses from the system? "
-                               "*A score of 1 would be not trustworthy at all (wrong/no recommendation, "
-                               "preferences not taken into account, feeling of distrust) "
-                               "and a score of 5 would be that you are fully confident that the right recommendation has been given*",
-                               1, 5)
-        chatbot_enjoy_rating = st.slider("On a scale from 1 to 5, how much do you usually trust chatbots ?"
-                                         "*A score of 1 would mean that you usually greatly dislike talking to chatbots,"
-                                         "and a score of 5 would mean that they enjoy talking to chatbots very much.*",
-                                         1, 5)
         recommendation_received = st.radio("Did you receive a recommendation for the preferences you entered?",
                                            ("Yes", "No"))
-        received_unexpected_result = st.radio("Did you receive an unexpected result from the system?", ("Yes", "No"),index = 1)
+
+        received_unexpected_result = st.radio("Did you receive an unexpected result from the system?",
+                                              ("Yes", "No"), index=1)
 
         # If the answer is "Yes," ask for additional information
         if received_unexpected_result == 'Yes':
             additional_info = st.text_area("If yes, please provide details:", max_chars=200, height=30)
         else: additional_info = " "
 
+        chatbot_trust_rating = st.slider("I usually find charbots trustworthy *1 strongly disagree, 5 strongly agree*", 1, 5)
         humanlike_rating = st.slider(
-            "How human-like would you consider the conversation?", 1, 5, format="%d")
+            "The chatbot interaction was human-like *1 strongly disagree, 5 strongly agree*", 1, 5, format="%d")
         st.write("-----")
         sub_button = st.button("Submit")
         if sub_button:
-            database_df = save_data(str(get_id()), now, st.session_state.messages, [age, humanlike_rating, trust_rating, chatbot_enjoy_rating,
-                                                                    recommendation_received, received_unexpected_result,
-                                                                    additional_info, mode])
+            database_df = save_data(str(get_id()), now, st.session_state.messages, consent_checkboxed,
+                                    [age, humanlike_rating, trust_rating, chatbot_trust_rating,
+                                    recommendation_received, received_unexpected_result,
+                                    additional_info, mode])
             database_df = database_df.astype(str)
             sheet.insert_rows(database_df.values.tolist(), len(sheet.get_all_records()) + 2)
             st.markdown("Your answers are saved, thank you!")
