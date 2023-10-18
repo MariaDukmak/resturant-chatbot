@@ -164,7 +164,10 @@ def state_2a_ask_missing_preferences_area(user_input, ds):
     if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or( new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings)-1)], clearDsClass(ds)
+            if rules['anthropomorphic_response']:
+                return welcome_strings_anthropomorphic[string_random_string_selection(0, len(welcome_strings_anthropomorphic)-1)], clearDsClass(ds)
+            else:
+                return welcome_strings[string_random_string_selection(0, len(welcome_strings)-1)], clearDsClass(ds)
         else:
             ds.state = '2a'
             return string_allcaps_function(restart_option_false[string_random_string_selection(0, len(restart_option_false)-1)]), ds
@@ -200,7 +203,11 @@ def state_2b_ask_missing_preferences_food(user_input, ds):
     if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
+            if rules['anthropomorphic_response']:
+                return welcome_strings_anthropomorphic[
+                    string_random_string_selection(0, len(welcome_strings_anthropomorphic) - 1)], clearDsClass(ds)
+            else:
+                return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '2b'
             return string_allcaps_function(
@@ -237,7 +244,11 @@ def state_2c_ask_missing_preferences_price(user_input, ds):
     if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
+            if rules['anthropomorphic_response']:
+                return welcome_strings_anthropomorphic[
+                    string_random_string_selection(0, len(welcome_strings_anthropomorphic) - 1)], clearDsClass(ds)
+            else:
+                return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '2c'
             return string_allcaps_function(
@@ -290,7 +301,11 @@ def state_3a_ask_additional_preferences(user_input, ds):
     if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
+            if rules['anthropomorphic_response']:
+                return welcome_strings_anthropomorphic[
+                    string_random_string_selection(0, len(welcome_strings_anthropomorphic) - 1)], clearDsClass(ds)
+            else:
+                return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '3a'
             return string_allcaps_function(
@@ -355,7 +370,11 @@ def state_4_no_restaurants(user_input, ds):
     if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
+            if rules['anthropomorphic_response']:
+                return welcome_strings_anthropomorphic[
+                    string_random_string_selection(0, len(welcome_strings_anthropomorphic) - 1)], clearDsClass(ds)
+            else:
+                return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '4'
             return string_allcaps_function(restart_option_false[string_random_string_selection(0, len(restart_option_false) - 1)]), ds
@@ -380,7 +399,11 @@ def state_5_recommendation(user_input, ds):
     if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
+            if rules['anthropomorphic_response']:
+                return welcome_strings_anthropomorphic[
+                    string_random_string_selection(0, len(welcome_strings_anthropomorphic) - 1)], clearDsClass(ds)
+            else:
+                return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             if ds.recommendations.empty:
                 ds.state = '4'
@@ -467,7 +490,11 @@ def state_6_give_information(user_input, ds):
     if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
-            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
+            if rules['anthropomorphic_response']:
+                return welcome_strings_anthropomorphic[
+                    string_random_string_selection(0, len(welcome_strings_anthropomorphic) - 1)], clearDsClass(ds)
+            else:
+                return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
         else:
             ds.state = '6'
             return string_allcaps_function(
