@@ -32,7 +32,7 @@ def classifier_prediction(user_utterance: str) -> List[str]:
     print(user_utterance)
     df = read_data()
     df = prep_df(df)
-    with open('../data/cleaned_data_lr.pickle', 'rb') as file:
+    with open('data/cleaned_data_lr.pickle', 'rb') as file:
         loaded_model = pickle.load(file)
 
     vectorizer = vectorize_utterance(df['utterance_content'])
@@ -161,7 +161,7 @@ def state_2a_ask_missing_preferences_area(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
     ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or( new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings)-1)], clearDsClass(ds)

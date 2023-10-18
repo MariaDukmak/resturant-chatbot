@@ -3,7 +3,7 @@ import random
 
 # Add the antedecents to the restaurant csv
 # Load the CSV file into a Pandas DataFrame
-df = pd.read_csv('../data/restaurant_info.csv')
+df = pd.read_csv('data/restaurant_info.csv')
 
 # Create new columns and fill it with random values
 food_quality = []
