@@ -54,13 +54,13 @@ missing_information_state_food_grounding_anthropomorphic = [" that serves delici
 
 
 #missing pricerange
-missing_information_state_pricerange = [" express the preference for the price range: cheap, moderate, or expensive"]
+missing_information_state_pricerange = [" Express the preference for the price range: cheap, moderate, or expensive"]
 
 missing_information_state_pricerange_anthropomorphic = ["So, what are we intending to spend tonight? I can recommend you some expensive restaurants, but if cheap or moderately priced work better for you, that's fine as well!", "Do you feel like spending money? Tell me if you want a cheap, moderate or expensive restaurant"]
 #missing pricerange grounding
 missing_information_state_pricerange_grounding = [" where the cost is {}"]
 
-missing_information_state_pricerange_grounding_anthropomorphic = [" where the cost is {}. Isn't that great?", " where the price is {}, just like you requested!"]
+missing_information_state_pricerange_grounding_anthropomorphic = [" where the price is {}, just like you requested!"]
 
 
 def missing_information_state_grounding_string_builder(preferences):
