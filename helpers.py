@@ -26,7 +26,7 @@ def save_data(id, now, dialog, consent_checked, evaluation_data):
              'recommendation_received': evaluation_data[4], 'received_unexpected_result':evaluation_data[5],
              'additional_info':evaluation_data[6], 'mode':evaluation_data[7]}]
 
-    df = pd.DataFrame(data, columns=['id', 'date', 'dialouge', 'age', 'humanlike', 'trust_rating', 'chatbot_enjoy_rating',
+    df = pd.DataFrame(data, columns=['id', 'date', 'dialouge', 'consent_checked','age', 'humanlike', 'trust_rating', 'chatbot_enjoy_rating',
                                     'recommendation_received', 'received_unexpected_result', 'additional_info', 'mode'])
     return df
 
