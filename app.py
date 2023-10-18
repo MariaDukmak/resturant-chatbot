@@ -37,7 +37,7 @@ def app() -> None:
                     "or different topics to this study and potential results can be published in other scientific"
                     " publications. At all times, my personal data will be kept anonymized in accordance with data "
                     "protection guidelines")
-    consent_checkboxed = st.sidebar.checkbox("**By checking this checkbox, I confirm that I red the consent terms and that I agree**")
+    consent_checkboxed = st.sidebar.checkbox("**By checking this checkbox, I confirm that I read the consent terms and that I agree**")
 
     placeholder = st.empty()
     credentials = service_account.Credentials.from_service_account_info(
