@@ -11,7 +11,7 @@ restart_option_false = ["sorry you can't restart the conversation, please set th
 restart_option_false_anthropomorphic = [""]
 #-----------------------------------------------------------------------
 #preference changes not allowed
-change_preferences_option_false = ["Sorry,you can't change the preferences, you can activate this option in the config file or, if it is activated, you can restart the conversation\n", "changing preferences is not allowed at this state of the conversation, please chenge the option in the config file or, if enabled, restart the conversation\n"]
+change_preferences_option_false = ["sorry, you can't change the preferences, you can activate this option in the config file or, if it is activated, you can restart the conversation\n", "changing preferences is not allowed at this state of the conversation, please chenge the option in the config file or, if enabled, restart the conversation\n"]
 change_preferences_option_false_anthropomorphic = [""]
 #-----------------------------------------------------------------------
 
@@ -20,33 +20,33 @@ change_preferences_option_false_anthropomorphic = [""]
 
 #-----------------------------------------------------------------------
 #1 welcome state
-welcome_strings = ["This is the Cambridge restaurant system. Enter area , price range or food type."]
+welcome_strings = ["This is the Cambridge restaurant system. Enter area, price range or food type."]
 
-welcome_strings_anthropomorphic = ["Hi I'm John, Welcome to the Cambridge restaurant system! Tell me your preferred area, price range or food type, so we can select a good recommendation!", "Hi, my name is Josh and I am here to recommend you a great restaurant! What area, price range and food type would you like?"]
+welcome_strings_anthropomorphic = ["Welcome! I'm Josh, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!", "Welcome! I'm Lisa, your virtual restaurant recommendation assistant! Tell me your preferred area, price range or food type, so I can find a good recommendation!"]
 #-----------------------------------------------------------------------
 #1a welcome state
-welcome_1a_strings = ["Please enter your preferences (location, pricerange and food type) again"]
+welcome_1a_strings = ["Please enter your preferences (location, pricerange and food type)"]
 
-welcome_1a_strings_anthropomorphic = ["Sorry, I didn't catch that, can you tell me your preferences again please?", "I would like to know your preferences, for the area, price range and food type, so we can find you a great restaurant! Can you please enter these preferences?"]
+welcome_1a_strings_anthropomorphic = ["Sorry, I didn't catch that, can you tell me your preferences again please?", " I would like to know your preferences, for the area, price range and food type, so we can find you a great restaurant! Can you please enter these preferences?"]
 #-----------------------------------------------------------------------
 
 #missing information state 2a 2b 2c
 missing_information_state_main_grounding = ["The system is searching for a restaurant"]
 
-missing_information_state_main_grounding_anthropomorphic = ["I am searching for a restaurant! Hope you're excited!", "Just a minute, I am searching for a great restaurant for you. Are you hungry yet?", "One moment please, a nice restaurant for tonight is coming your way!"]
+missing_information_state_main_grounding_anthropomorphic = ["I am searching for a restaurant! Hope you're excited!", "Just a minute, I am searching for a great restaurant for you.", "One moment please, a nice restaurant for tonight is coming your way!"]
 #missing area
 missing_information_state_area = ["In which part of the city you want to eat? Enter north, south, east, west or centre."]
 
-missing_information_state_area_anthropomorphic = ["I would like to know what part of time you want to eat. South? West? Centre? Please let me know!", "I need a little more information to find your recommendation. Can you tell me where you want to eat: the south, east, west or central part of town?"]
+missing_information_state_area_anthropomorphic = [" I would like to know in which part of the city you want to eat. You can choose north, south, west, east or centre. Please let me know!", " I need a little more information to find your recommendation. Can you tell in which area you want to eat: south, east, west or in the centre?"]
 #missing area grounding
 missing_information_state_area_grounding = [" in the {} part of the city", " in the {} area"]
 
-missing_information_state_area_grounding_anthropomorphic = [" in the {} part of the city: isn't it the best area?"]
+missing_information_state_area_grounding_anthropomorphic = [" in the {} part of the city", " in the {} area"]
 
 #missing information food
-missing_information_state_food = [" what kind of food do you want to eat?"]
+missing_information_state_food = [" What kind of food do you want to eat?"]
 
-missing_information_state_food_anthropomorphic = ["What kind of food are you in the mood for today? Chinese? French? Let me know!", "Are you craving a specific type of food? Let me know your food type preferences!"]
+missing_information_state_food_anthropomorphic = [" What kind of food are you in the mood for today? Italian? Chinese? French? Let me know!", " Are you craving a specific type of food? Let me know your food type preferences!"]
 #missing information grounding
 missing_information_state_food_grounding = [" that serves {} food"]
 
@@ -54,13 +54,13 @@ missing_information_state_food_grounding_anthropomorphic = [" that serves delici
 
 
 #missing pricerange
-missing_information_state_pricerange = [" express the preference for the price range: cheap, moderate, or expensive"]
+missing_information_state_pricerange = [" Express the preference for the price range: cheap, moderate, or expensive"]
 
-missing_information_state_pricerange_anthropomorphic = ["So, what are we intending to spend tonight? I can recommend you some expensive restaurants, but if cheap or moderately priced work better for you, that's fine as well!", "Do you feel like spending money? Tell me if you want a cheap, moderate or expensive restaurant"]
+missing_information_state_pricerange_anthropomorphic = [" So, what are we intending to spend tonight? I can recommend you some expensive restaurants, but if cheap or moderately priced work better for you, that's fine as well!", " Do you feel like spending money? Tell me if you want a cheap, moderate or expensive restaurant"]
 #missing pricerange grounding
 missing_information_state_pricerange_grounding = [" where the cost is {}"]
 
-missing_information_state_pricerange_grounding_anthropomorphic = [" where the cost is {}. Isn't that great?", " where the price is {}, just like you requested!"]
+missing_information_state_pricerange_grounding_anthropomorphic = [" where the price is {}, just like you requested!"]
 
 
 def missing_information_state_grounding_string_builder(preferences):
@@ -109,17 +109,17 @@ recommendation_state_found_area = [" in the {} area"]
 recommendation_state_found_food = [" that serves {} food"]
 recommendation_state_found_pricerange = [" at {} prices"]
 
-recommendation_state_found_restaurant_anthropomorphic = ["{} is the perfect restaurant for you!", "{} is a great place! I'd recommend going there tonight, seems like a great fit"]
-recommendation_state_found_area_anthropomorphic = [" it is the {} area, a beautiful part of the city", " located in the {}"]
+recommendation_state_found_restaurant_anthropomorphic = ["{} is the perfect restaurant for you", "{} is a great place"]
+recommendation_state_found_area_anthropomorphic = [" located in the {}"]
 recommendation_state_found_food_anthropomorphic = [" that serves some amazing {} food", ", that has some special {} dishes!"]
-recommendation_state_found_pricerange_anthropomorphic = [" at incredibly {} prices!"]
+recommendation_state_found_pricerange_anthropomorphic = [" at incredible {} prices!"]
 
 #recommendation not found state 4
-recommendation_state_not_found = ["there is no restaurant"]
+recommendation_state_not_found = ["There is no restaurant"]
 recommendation_state_not_found_change_preferences = [" change the (additional) preferences for others suggestions"]
 
-recommendation_state_not_found_anthropomorphic = ["I'm sooooo sorry, but we didn't find any restaurant!"]
-recommendation_state_not_found_change_preferences_anthropomorphic = [", if you change your preferences I can do another search in a blimp!"]
+recommendation_state_not_found_anthropomorphic = ["I'm so sorry, but I didn't find any restaurant"]
+recommendation_state_not_found_change_preferences_anthropomorphic = [" If you change your (additional) preferences I can do another search in a blimp!"]
 
 def recommendation_state_string_builder(restaurant_name, preferences):
 

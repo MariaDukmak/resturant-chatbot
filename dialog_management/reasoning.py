@@ -34,12 +34,12 @@ antecedent_dict = {
 consequents = ["touristic", "assigned_seats", "children", "romantic"]
 
 logical_list = [
-    ('and', ('good', True), ('cheap', True), (consequents[0], True), "a cheap restaurant with good food attracts tourists"),
-    ('and', ('romanian', True), (consequents[0], False), "Romanian cuisine is unknown for most tourists and they prefer familiar food"),
-    ('and', ('busy', True), (consequents[1], True),"in a busy restaurant the waiter decides where you sit" ),
-    ('and', ('long', False), (consequents[2], True), "spending a short time is advised when taking children"),
-    ('and', ('busy', True), (consequents[3], False), "a busy restaurant is not romantic"),
-    ('and', ('long', True), (consequents[3], True), "spending a long time in a restaurant is romantic")
+    ('and', ('good', True), ('cheap', True), (consequents[0], True), "a cheap restaurant with good food attracts tourists."),
+    ('and', ('romanian', True), (consequents[0], False), "Romanian cuisine is unknown for most tourists and they prefer familiar food."),
+    ('and', ('busy', True), (consequents[1], True),"in a busy restaurant the waiter decides where you sit." ),
+    ('and', ('long', False), (consequents[2], True), "spending a short time is advised when taking children."),
+    ('and', ('busy', True), (consequents[3], False), "a busy restaurant is not romantic."),
+    ('and', ('long', True), (consequents[3], True), "spending a long time in a restaurant is romantic.")
 ]
 
 #reverse the order of the dictionary, so the hierarchy in the rules remains when looping trhough the list

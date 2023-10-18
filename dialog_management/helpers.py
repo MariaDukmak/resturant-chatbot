@@ -297,7 +297,7 @@ def state_3_database_search(ds):
         return recommendation_state_not_found_string_builder(ds.preferences), ds
     else:
         ds.state = '3a'
-        return string_allcaps_function("Do you have additional requirements for this recommendation? (e.g. 'romantic', 'touristic', 'assigned_seats' or 'children'?) "), ds
+        return string_allcaps_function("Do you have additional requirements for this recommendation? (Please answer with 'romantic', 'touristic', 'assigned_seats' or 'children') "), ds
 
 def state_3a_ask_additional_preferences(user_input, ds):
     '''in state 3a we ask for additional preference if a recommendation is found'''
@@ -334,13 +334,13 @@ def state_3a_ask_additional_preferences(user_input, ds):
         else:
             print(string_allcaps_function(get_consequent_output(consequent, False, None)))
         ds.state = '3b'
-        return s + "\n" + "Do you want to save this recommendations? If you say no, you will be able to change preferences. (please answer with 'yes' or 'no')", ds
+        return s + "\n" + "Do you want to go ahead with this recommendation? If you say no, you will be able to change preferences (Please answer with 'yes' or 'no').", ds
     else:
         ds.state = '5'
         ds.recommendation = ds.recommendations.iloc[0]
         ds.recommendations.drop(index=ds.recommendations.index[0], axis=0, inplace=True)
         return string_allcaps_function(
-            "restaurants found = " + str(len(ds.recommendations.index) + 1)) + " there are " + str(len(ds.recommendations.index)) + " other restaurants that you can view\n" + string_allcaps_function(
+            "(restaurants found = " + str(len(ds.recommendations.index) + 1)) + " there are " + str(len(ds.recommendations.index)) + " other restaurants that you can view)\n" + string_allcaps_function(
             recommendation_state_string_builder(ds.recommendation.get(key='restaurantname'), ds.preferences)), ds
 
 
@@ -360,7 +360,7 @@ def state_3b_ask_to_save_preferences(user_input, ds):
             ds.recommendation = ds.recommendations.iloc[0]
             ds.recommendations.drop(index=ds.recommendations.index[0], axis=0, inplace=True)
             s = string_allcaps_function(
-                "restaurants found = " + str(len(ds.recommendations.index) + 1)) + " there are " + str(len(ds.recommendations.index)) + " other restaurants that you can view\n" + string_allcaps_function(
+                "(restaurants found = " + str(len(ds.recommendations.index) + 1)) + " there are " + str(len(ds.recommendations.index)) + " other restaurants that you can view)\n" + string_allcaps_function(
                 recommendation_state_string_builder(ds.recommendation.get(key='restaurantname'), ds.preferences))
             return s, ds
     elif "no" in user_input:
