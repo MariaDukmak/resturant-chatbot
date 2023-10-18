@@ -521,7 +521,7 @@ def extract_preferences(utterance: str, levenshtein: bool = True, food_preferenc
     '''extract preferences function that will use the levenshtein distance if that is neccessary'''
 
     # Get all the possible food, price and location types from the csv and initialize the preferences if they are not filled
-    data = pd.read_csv('../data/restaurant_info.csv')
+    data = pd.read_csv('data/restaurant_info.csv')
     food_types = data['food'].unique()
     locations = data['area'].unique()
     price_ranges = data['pricerange'].unique()
@@ -591,7 +591,7 @@ def retrieve_restaurants(preferences: Tuple = ('north', 'cheap', None)) -> Union
     # multiple possible restaurants? choose random & store all results
     filter = []
     area, food, pricerange = preferences
-    data = pd.read_csv('../data/restaurant_info_with_properties.csv')
+    data = pd.read_csv('data/restaurant_info_with_properties.csv')
 
 
     # Create a filter based on all preferences
@@ -604,7 +604,7 @@ def retrieve_restaurants(preferences: Tuple = ('north', 'cheap', None)) -> Union
     return results.head() if len(results) != 0 else None
 
 
-def read_data(filename: str = "../data/dialog_acts.dat") -> pd.DataFrame:
+def read_data(filename: str = "data/dialog_acts.dat") -> pd.DataFrame:
     '''Read data from a .dat format and return a pandas dataframe.'''
     file_content = [i.strip().split(" ", 1) for i in open(filename).readlines()]
     df = pd.DataFrame(file_content, columns=['dialog_act', 'utterance_content'])
