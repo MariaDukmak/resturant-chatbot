@@ -32,7 +32,7 @@ def classifier_prediction(user_utterance: str) -> List[str]:
     print(user_utterance)
     df = read_data()
     df = prep_df(df)
-    with open('data/cleaned_data_lr.pickle', 'rb') as file:
+    with open('../data/cleaned_data_lr.pickle', 'rb') as file:
         loaded_model = pickle.load(file)
 
     vectorizer = vectorize_utterance(df['utterance_content'])
@@ -161,7 +161,7 @@ def state_2a_ask_missing_preferences_area(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
     ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings)-1)], clearDsClass(ds)
@@ -197,7 +197,7 @@ def state_2b_ask_missing_preferences_food(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
     ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
@@ -234,7 +234,7 @@ def state_2c_ask_missing_preferences_price(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
     ds.preferences = update_preferences(ds.preferences, extract_preferences(user_input))
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
@@ -287,7 +287,7 @@ def state_3a_ask_additional_preferences(user_input, ds):
     consequent = search_for_consequent(user_input)
     ds.recommendations["result"] = False
     ds.drop_indexes = []
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
@@ -352,7 +352,7 @@ def state_4_no_restaurants(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
 
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
@@ -377,7 +377,7 @@ def state_5_recommendation(user_input, ds):
 
     new_dialog_state = classifier_prediction(user_input)
 
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
@@ -464,7 +464,7 @@ def state_6_give_information(user_input, ds):
         return string_allcaps_function(give_information_state_string_builder(requested_info)), ds
     elif new_dialog_state == 'bye' or new_dialog_state == 'thankyou':
         return state_7_end(ds)
-    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input):
+    if new_dialog_state == 'restart' or (new_dialog_state == 'inform' and 'restart' in user_input) or (new_dialog_state == 'null' and 'restart' in user_input):
         if rules["restart"] == True:
             ds.state = '1'
             return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
@@ -521,7 +521,7 @@ def extract_preferences(utterance: str, levenshtein: bool = True, food_preferenc
     '''extract preferences function that will use the levenshtein distance if that is neccessary'''
 
     # Get all the possible food, price and location types from the csv and initialize the preferences if they are not filled
-    data = pd.read_csv('data/restaurant_info.csv')
+    data = pd.read_csv('../data/restaurant_info.csv')
     food_types = data['food'].unique()
     locations = data['area'].unique()
     price_ranges = data['pricerange'].unique()
@@ -591,7 +591,7 @@ def retrieve_restaurants(preferences: Tuple = ('north', 'cheap', None)) -> Union
     # multiple possible restaurants? choose random & store all results
     filter = []
     area, food, pricerange = preferences
-    data = pd.read_csv('data/restaurant_info_with_properties.csv')
+    data = pd.read_csv('../data/restaurant_info_with_properties.csv')
 
 
     # Create a filter based on all preferences
@@ -604,7 +604,7 @@ def retrieve_restaurants(preferences: Tuple = ('north', 'cheap', None)) -> Union
     return results.head() if len(results) != 0 else None
 
 
-def read_data(filename: str = "data/dialog_acts.dat") -> pd.DataFrame:
+def read_data(filename: str = "../data/dialog_acts.dat") -> pd.DataFrame:
     '''Read data from a .dat format and return a pandas dataframe.'''
     file_content = [i.strip().split(" ", 1) for i in open(filename).readlines()]
     df = pd.DataFrame(file_content, columns=['dialog_act', 'utterance_content'])
