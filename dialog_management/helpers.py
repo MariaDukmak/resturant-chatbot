@@ -360,7 +360,11 @@ def state_3b_ask_to_save_preferences(user_input, ds):
         return recommendation_state_not_found_string_builder(ds.preferences), ds
     else:
         ds.state = '1'
-        return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], ds
+        if rules['anthropomorphic_response']:
+            return welcome_strings_anthropomorphic[
+                string_random_string_selection(0, len(welcome_strings_anthropomorphic) - 1)], clearDsClass(ds)
+        else:
+            return welcome_strings[string_random_string_selection(0, len(welcome_strings) - 1)], clearDsClass(ds)
 
 def state_4_no_restaurants(user_input, ds):
     '''in state 4 the system ask the user to change its preferences so that a new attempt can be made'''
