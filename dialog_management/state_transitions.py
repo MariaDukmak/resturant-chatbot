@@ -27,7 +27,7 @@ welcome_strings_anthropomorphic = ["Welcome! I'm Josh, your virtual restaurant r
 #1a welcome state
 welcome_1a_strings = ["Please enter your preferences (location, pricerange and food type)"]
 
-welcome_1a_strings_anthropomorphic = ["Sorry, I didn't catch that, can you tell me your preferences again please?", "I would like to know your preferences, for the area, price range and food type, so we can find you a great restaurant! Can you please enter these preferences?"]
+welcome_1a_strings_anthropomorphic = ["Sorry, I didn't catch that, can you tell me your preferences again please?", " I would like to know your preferences, for the area, price range and food type, so we can find you a great restaurant! Can you please enter these preferences?"]
 #-----------------------------------------------------------------------
 
 #missing information state 2a 2b 2c
@@ -37,7 +37,7 @@ missing_information_state_main_grounding_anthropomorphic = ["I am searching for 
 #missing area
 missing_information_state_area = ["In which part of the city you want to eat? Enter north, south, east, west or centre."]
 
-missing_information_state_area_anthropomorphic = ["I would like to know in which part of the city you want to eat. You can choose north, south, west, east or centre. Please let me know!", "I need a little more information to find your recommendation. Can you tell in which area you want to eat: south, east, west or in the centre?"]
+missing_information_state_area_anthropomorphic = [" I would like to know in which part of the city you want to eat. You can choose north, south, west, east or centre. Please let me know!", " I need a little more information to find your recommendation. Can you tell in which area you want to eat: south, east, west or in the centre?"]
 #missing area grounding
 missing_information_state_area_grounding = [" in the {} part of the city", " in the {} area"]
 
@@ -46,7 +46,7 @@ missing_information_state_area_grounding_anthropomorphic = [" in the {} part of 
 #missing information food
 missing_information_state_food = [" What kind of food do you want to eat?"]
 
-missing_information_state_food_anthropomorphic = [" What kind of food are you in the mood for today? Italian? Chinese? French? Let me know!", "Are you craving a specific type of food? Let me know your food type preferences!"]
+missing_information_state_food_anthropomorphic = [" What kind of food are you in the mood for today? Italian? Chinese? French? Let me know!", " Are you craving a specific type of food? Let me know your food type preferences!"]
 #missing information grounding
 missing_information_state_food_grounding = [" that serves {} food"]
 
@@ -56,7 +56,7 @@ missing_information_state_food_grounding_anthropomorphic = [" that serves delici
 #missing pricerange
 missing_information_state_pricerange = [" Express the preference for the price range: cheap, moderate, or expensive"]
 
-missing_information_state_pricerange_anthropomorphic = [" So, what are we intending to spend tonight? I can recommend you some expensive restaurants, but if cheap or moderately priced work better for you, that's fine as well!", "Do you feel like spending money? Tell me if you want a cheap, moderate or expensive restaurant"]
+missing_information_state_pricerange_anthropomorphic = [" So, what are we intending to spend tonight? I can recommend you some expensive restaurants, but if cheap or moderately priced work better for you, that's fine as well!", " Do you feel like spending money? Tell me if you want a cheap, moderate or expensive restaurant"]
 #missing pricerange grounding
 missing_information_state_pricerange_grounding = [" where the cost is {}"]
 
@@ -109,7 +109,7 @@ recommendation_state_found_area = [" in the {} area"]
 recommendation_state_found_food = [" that serves {} food"]
 recommendation_state_found_pricerange = [" at {} prices"]
 
-recommendation_state_found_restaurant_anthropomorphic = ["{} is the perfect restaurant for you!", "{} is a great place! I'd recommend going there tonight, seems like a great fit"]
+recommendation_state_found_restaurant_anthropomorphic = ["{} is the perfect restaurant for you", "{} is a great place"]
 recommendation_state_found_area_anthropomorphic = [" it is in the {} area, a beautiful part of the city", " located in the {}"]
 recommendation_state_found_food_anthropomorphic = [" that serves some amazing {} food", ", that has some special {} dishes!"]
 recommendation_state_found_pricerange_anthropomorphic = [" at incredible {} prices!"]
