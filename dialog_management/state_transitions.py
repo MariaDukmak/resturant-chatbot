@@ -44,9 +44,9 @@ missing_information_state_area_grounding = [" in the {} part of the city", " in 
 missing_information_state_area_grounding_anthropomorphic = [" in the {} part of the city", " in the {} area"]
 
 #missing information food
-missing_information_state_food = [" what kind of food do you want to eat?"]
+missing_information_state_food = [" What kind of food do you want to eat?"]
 
-missing_information_state_food_anthropomorphic = ["What kind of food are you in the mood for today? Chinese? French? Let me know!", "Are you craving a specific type of food? Let me know your food type preferences!"]
+missing_information_state_food_anthropomorphic = ["What kind of food are you in the mood for today? Italian? Chinese? French? Let me know!", "Are you craving a specific type of food? Let me know your food type preferences!"]
 #missing information grounding
 missing_information_state_food_grounding = [" that serves {} food"]
 
